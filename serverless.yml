@@ -1,0 +1,42 @@
+# "org" ensures this Service is used with the correct Serverless Framework Access Key.
+org: linkedinscraper
+# "app" enables Serverless Framework Dashboard features and sharing them with other Services.
+app: linkedin-scraper
+# "service" is the name of this project. This will also be added to your AWS resource names.
+service: limkedinScraper
+
+provider:
+  name: aws
+  runtime: nodejs20.x
+  region: us-east-1
+
+functions:
+  scrapeJobs:
+    handler: handler.scrapeJobs
+    timeout: 900  # 15 minutes
+    events:
+      - schedule:
+          rate: rate(30 minutes)
+          enabled: true
+  isNodeJob:
+    handler: handler.isNodeJob
+    timeout: 900  # 15 minutes
+    events:
+      - schedule:
+          rate: rate(15 minutes)
+          enabled: true
+  crunchbaseCompanies:
+    handler: handler.crunchbaseCompanies
+    timeout: 900  # 15 minutes
+    events:
+      - schedule:
+          rate: rate(20 minutes)
+          enabled: false
+  crunchbaseInvestors:
+    handler: handler.crunchbaseInvestors
+    timeout: 900  # 15 minutes
+    events:
+      - schedule:
+          rate: rate(20 minutes)
+          enabled: true
+
